@@ -1,95 +1,55 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+import { Stack, Typography, Container, Box } from "@mui/material";
+import React from "react";
+import ItemCart from "./item-cart";
+
+const formatNumber = (num: number) => num.toLocaleString('th-TH');
 
 export default function Home() {
+  const [total, setTotal] = React.useState(0);
+
+  const handleIncremental = (price: number) => {
+    setTotal(total + price);
+  };
+
+  const handleDecremental = (price: number) => {
+    setTotal(total - price);
+  };
+
+  const myItems = [
+    { itemname: "iPhone 15 Pro", price: 499 },
+    { itemname: "iPhone 15", price: 399 },
+    { itemname: "iPad Pro", price: 799 },
+    { itemname: "iPad Air", price: 599 },
+    { itemname: "iPad", price: 499 },
+    { itemname: "iPad mini", price: 399 },
+    { itemname: "MacBook Air", price: 999 },
+    { itemname: "MacBook Pro", price: 1299 },
+    { itemname: "iMac", price: 1799 },
+    { itemname: "Mac mini", price: 699 },
+    { itemname: "Mac Studio", price: 1999 },
+  ];
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+    <Container>
+      <Typography variant="h2" align="center" gutterBottom>
+        Shopping Cart
+      </Typography>
+      {myItems.map((item) => (
+        <ItemCart
+          key={item.itemname}
+          itemname={item.itemname}
+          itemPrice={item.price}
+          handleIncremantal={handleIncremental}
+          handleDecremental={handleDecremental}
         />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      ))}
+      <Box mt={4}>
+        <Stack direction="row" spacing={2} justifyContent="center">
+          <Typography variant="h4">Total</Typography>
+          <Typography variant="h4">{formatNumber(total)} บาท</Typography>
+        </Stack>
+      </Box>
+    </Container>
   );
 }
